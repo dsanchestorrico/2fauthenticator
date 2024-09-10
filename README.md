@@ -4,7 +4,7 @@ Servicio externo encargado de validar el segundo factor de autenticación (2FA) 
 
 ## Generación de Códigos 2FA
 
-Se utiliza TOTP (Time-Based One-Time Password) para generar códigos 2FA. La librería `otp-java` permite generar códigos que expiran tras un breve periodo de tiempo.
+Se utiliza TOTP (Time-Based One-Time Password) para generar códigos 2FA. La librería `otp-java` permite generar códigos que expiran tras un breve periodo de tiempo. Adicionalmente se utiliza `zxing` para generar el código QR de registro.
 
 ## Flujo Completo de la API
 
