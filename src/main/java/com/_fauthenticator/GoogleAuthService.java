@@ -21,7 +21,6 @@ public class GoogleAuthService {
 
     // Genera las credenciales 2FA que incluyen la clave secreta (GoogleAuthenticatorKey)
     public GoogleAuthenticatorKey generateKey() {
-        // El método createCredentials() devuelve un GoogleAuthenticatorKey que contiene la clave secreta
         return gAuth.createCredentials();
     }
 
