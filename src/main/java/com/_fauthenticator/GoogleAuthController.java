@@ -22,23 +22,31 @@ public class GoogleAuthController {
 
     // Endpoint para generar la clave secreta y el código QR para el usuario
     @GetMapping("/generate-secret")
-    public ResponseEntity<String> generateSecretKey(@RequestParam String username) throws IOException, WriterException {
+    public ResponseEntity<GoogleAuthResponse> generateSecretKey(@RequestParam String username) throws IOException, WriterException {
         GoogleAuthenticatorKey key = googleAuthService.generateKey();
-        String qrCodeUrl = googleAuthService.getQRBarcode(key, username, "2fauthenticator");
-        return ResponseEntity.ok("Secret key: " + key.getKey() + "\nQR Code URL: " + qrCodeUrl);
+        String qrCodeBase64 = googleAuthService.getQRBarcode(key, username, "2fauthenticator");
+        GoogleAuthResponse response = new GoogleAuthResponse(
+                "Secret key generated successfully.",
+                qrCodeBase64,
+                key.getKey()
+        );
+        return ResponseEntity.ok(response);
     }
 
     // Endpoint para validar el código TOTP enviado por el usuario
     @PostMapping("/validate")
-    public ResponseEntity<String> validate2FACode(@RequestBody TwoFactorAuthRequest request) {
+    public ResponseEntity<GoogleAuthResponse> validate2FACode(@RequestBody TwoFactorAuthRequest request) {
         String secretKey = request.getSecretKey();
         int code = request.getCode();
         boolean isValid = googleAuthService.validateCode(secretKey, code);
 
+        GoogleAuthResponse response;
         if (isValid) {
-            return ResponseEntity.ok("2FA code is valid.");
+            response = new GoogleAuthResponse("2FA code is valid.");
+            return ResponseEntity.ok(response);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid 2FA code.");
+            response = new GoogleAuthResponse("Invalid 2FA code.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
 }
