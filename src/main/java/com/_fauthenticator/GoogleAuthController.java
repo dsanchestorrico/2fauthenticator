@@ -14,7 +14,6 @@ import java.io.IOException;
 public class GoogleAuthController {
 
     private final GoogleAuthService googleAuthService;
-    @Value("${spring.application.name}")
     private String appName;
 
     public GoogleAuthController(GoogleAuthService googleAuthService) {
@@ -25,7 +24,7 @@ public class GoogleAuthController {
     @GetMapping("/generate-secret")
     public ResponseEntity<String> generateSecretKey(@RequestParam String username) throws IOException, WriterException {
         GoogleAuthenticatorKey key = googleAuthService.generateKey();
-        String qrCodeUrl = googleAuthService.getQRBarcode(key, username, appName);
+        String qrCodeUrl = googleAuthService.getQRBarcode(key, username, "2fauthenticator");
         return ResponseEntity.ok("Secret key: " + key.getKey() + "\nQR Code URL: " + qrCodeUrl);
     }
 
