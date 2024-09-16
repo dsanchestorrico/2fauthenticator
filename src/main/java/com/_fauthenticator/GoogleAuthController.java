@@ -2,7 +2,6 @@ package com._fauthenticator;
 
 import com.google.zxing.WriterException;
 import com.warrenstrange.googleauth.GoogleAuthenticatorKey;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
